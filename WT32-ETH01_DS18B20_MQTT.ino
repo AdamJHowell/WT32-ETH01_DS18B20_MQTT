@@ -237,6 +237,7 @@ void loop()
 		if( mqttClient.publish( MQTT_CALLBACK_COUNT_TOPIC, valueBuffer ) )
 			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, MQTT_CALLBACK_COUNT_TOPIC );
 
+    // Temperature data
 		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray ) );
 		if( mqttClient.publish( DS18_TEMP_C_TOPIC, valueBuffer ) )
 			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC );
