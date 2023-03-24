@@ -19,8 +19,7 @@ unsigned long mqttCoolDownInterval   = 5000;                      // The time be
 unsigned long lastPrintTime          = 0;                         // The last time stats were printed to the serial port.
 unsigned long printInterval          = 5000;                      // The time between prints.
 unsigned long printCount             = 0;                         // A count of how many times the printTelemetry() function has been called.
-unsigned long lastPollTime           = 0;                         // The last time sensors were polled.
-unsigned long pollInterval           = 5000;                      // The time between sensor polls.
+unsigned int invalidValueCount       = 0;                         // A count of how many reading were out of range.
 float ds18TempCArray[]               = { -21.12, 21.12, 88.88 };  // An array to hold the 3 most recent Celsius values.
 
 
@@ -32,6 +31,8 @@ void setup();
 void toggleLED();
 void pollTelemetry();
 void addValue( float valueArray[], unsigned int size, float value, float minValue, float maxValue );
+float findMaximum( float valueArray[], unsigned int size );
+float findMinimum( float valueArray[], unsigned int size );
 void printTelemetry();
 void loop();
 float cToF( float value );

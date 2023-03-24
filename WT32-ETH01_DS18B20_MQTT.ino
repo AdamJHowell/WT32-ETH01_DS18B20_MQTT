@@ -30,6 +30,8 @@ void setup()
 	// Read from the sensors twice, to populate telemetry arrays.
 	pollTelemetry();
 	pollTelemetry();
+
+	Serial.println( "Function setup() has completed." );
 }  // End of the setup() function.
 
 
@@ -88,6 +90,36 @@ void addValue( float valueArray[], unsigned int size, float value, float minValu
 	valueArray[1] = valueArray[0];
 	valueArray[0] = value;
 }  // End of the addValue() function.
+
+
+/**
+ * @brief findMaximum() will return the largest value in the passed array.
+ */
+float findMaximum( float valueArray[], unsigned int size )
+{
+	float maxValue = valueArray[0];
+	for( int i = 1; i < size; ++i )
+	{
+		if( valueArray[i] > maxValue )
+			maxValue = valueArray[i];
+	}
+	return maxValue;
+} // End of the findMaximum() function.
+
+
+/**
+ * @brief findMinimum() will return the smallest value in the passed array.
+ */
+float findMinimum( float valueArray[], unsigned int size )
+{
+	float minValue = valueArray[0];
+	for( int i = 1; i < size; ++i )
+	{
+		if( valueArray[i] < minValue )
+			minValue = valueArray[i];
+	}
+	return minValue;
+} // End of the findMinimum() function.
 
 
 /**
@@ -180,15 +212,8 @@ void loop()
 	if( currentTime > printInterval && ( currentTime - printInterval ) > lastPrintTime )
 	{
 		toggleLED();
-		printTelemetry();
-		lastPrintTime = millis();
-	}
-
-	currentTime = millis();
-	// Avoid overflow.  Print every interval.
-	if( currentTime > pollInterval && ( currentTime - pollInterval ) > lastPollTime )
-	{
 		pollTelemetry();
+		printTelemetry();
 		lastPrintTime = millis();
 	}
 
