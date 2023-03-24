@@ -26,6 +26,10 @@ void setup()
 
 	digitalWrite( RX_LED, LED_OFF );
 	digitalWrite( TX_LED, LED_OFF );
+
+	// Read from the sensors twice, to populate telemetry arrays.
+	pollTelemetry();
+	pollTelemetry();
 }  // End of the setup() function.
 
 
@@ -116,7 +120,10 @@ void pollTelemetry()
 	ds18b20.requestTemperatures();
 	// Read the temperature from the sensor at index 0.
 	float ds18TempC = ds18b20.getTempCByIndex( 0 );
-	addValue( ds18TempCArray, 3, ds18TempC, -42, 212 );
+	if( ds18TempC != DEVICE_DISCONNECTED_C )
+		addValue( ds18TempCArray, 3, ds18TempC, -42, 212 );
+	else
+		Serial.println( "Error: Failed to read temperature data!" );
 }  // End of the pollTelemetry() function.
 
 
@@ -174,6 +181,14 @@ void loop()
 	{
 		toggleLED();
 		printTelemetry();
+		lastPrintTime = millis();
+	}
+
+	currentTime = millis();
+	// Avoid overflow.  Print every interval.
+	if( currentTime > pollInterval && ( currentTime - pollInterval ) > lastPollTime )
+	{
+		pollTelemetry();
 		lastPrintTime = millis();
 	}
 
