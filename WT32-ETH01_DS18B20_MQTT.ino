@@ -153,7 +153,10 @@ void pollTelemetry()
 	// Read the temperature from the sensor at index 0.
 	float ds18TempC = ds18b20.getTempCByIndex( 0 );
 	if( ds18TempC != DEVICE_DISCONNECTED_C )
-		addValue( ds18TempCArray, 3, ds18TempC, -42, 212 );
+		addValue( ds18TempCArray0, 3, ds18TempC, -42, 212 );
+	ds18TempC = ds18b20.getTempCByIndex( 1 );
+	if( ds18TempC != DEVICE_DISCONNECTED_C )
+		addValue( ds18TempCArray1, 3, ds18TempC, -42, 212 );
 	else
 		Serial.println( "Error: Failed to read temperature data!" );
 }  // End of the pollTelemetry() function.
@@ -194,8 +197,12 @@ void printTelemetry()
 	Serial.println();
 
 	Serial.println( "Environmental stats:" );
-	Serial.printf( "  Sensor 0 tempC: %.2f C\n", averageArray( ds18TempCArray ) );
-	Serial.printf( "  Sensor 0 tempC: %.2f F\n", cToF( averageArray( ds18TempCArray ) ) );
+	Serial.println( "  Sensor 0:" );
+	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray0 ) );
+	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray0 ) ) );
+	Serial.println( "  Sensor 1:" );
+	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray1 ) );
+	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray1 ) ) );
 	Serial.println();
 }  // End of the printTelemetry() function.
 
@@ -238,10 +245,10 @@ void loop()
 			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, MQTT_CALLBACK_COUNT_TOPIC );
 
 		// Temperature data
-		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray ) );
+		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray0 ) );
 		if( mqttClient.publish( DS18_TEMP_C_TOPIC, valueBuffer ) )
 			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC );
-		snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( ds18TempCArray ) ) );
+		snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( ds18TempCArray0 ) ) );
 		if( mqttClient.publish( DS18_TEMP_F_TOPIC, valueBuffer ) )
 			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC );
 
