@@ -246,11 +246,18 @@ void loop()
 
 		// Temperature data
 		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray0 ) );
-		if( mqttClient.publish( DS18_TEMP_C_TOPIC, valueBuffer ) )
-			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC );
+		if( mqttClient.publish( DS18_TEMP_C_TOPIC0, valueBuffer ) )
+			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC0 );
 		snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( ds18TempCArray0 ) ) );
-		if( mqttClient.publish( DS18_TEMP_F_TOPIC, valueBuffer ) )
-			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC );
+		if( mqttClient.publish( DS18_TEMP_F_TOPIC0, valueBuffer ) )
+			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC0 );
+
+		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray1 ) );
+		if( mqttClient.publish( DS18_TEMP_C_TOPIC1, valueBuffer ) )
+			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC1 );
+		snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( ds18TempCArray1 ) ) );
+		if( mqttClient.publish( DS18_TEMP_F_TOPIC1, valueBuffer ) )
+			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC1 );
 
 		Serial.printf( "Next publish in %u seconds.\n\n", publishInterval / 1000 );
 		lastPublishTime = millis();

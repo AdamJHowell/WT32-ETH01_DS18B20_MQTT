@@ -16,15 +16,17 @@ PubSubClient mqttClient( ethClient );
 
 
 const unsigned int BROKER_PORT        = 1883;                                          // The port to use when connecting to the MQTT broker.
-const char *BROKER_ADDRESS            = "theocho.local";                               // The network address of the MQTT broker.  This can be an IP address or a hostname.
+const char *BROKER_ADDRESS            = "TheOcho";                                     // The network address of the MQTT broker.  This can be an IP address or a hostname.
 const char *COMMAND_TOPIC             = "furnaceRoom/wt32eth01/commands";              // The MQTT topic where the IP address will be published to.
 const char *PUBLISH_TOPIC             = "furnaceRoom/wt32eth01/publishCount";          // The MQTT topic where the publish count will be published to.
 const char *CALLBACK_COUNT_TOPIC      = "furnaceRoom/wt32eth01/networkCallbackCount";  // The MQTT topic where the network callback count will be published to.
 const char *MQTT_CALLBACK_COUNT_TOPIC = "furnaceRoom/wt32eth01/mqttCallbackCount";     // The MQTT topic where the MQTT callback count will be published to.
 const char *MAC_TOPIC                 = "furnaceRoom/wt32eth01/mac";                   // The MQTT topic where the MAC address will be published to.
 const char *IP_TOPIC                  = "furnaceRoom/wt32eth01/ip";                    // The MQTT topic where the IP address will be published to.
-const char *DS18_TEMP_C_TOPIC         = "furnaceRoom/wt32eth01/ds18b20-00/tempC";      // The MQTT topic where the Celsius temperature will be published to.
-const char *DS18_TEMP_F_TOPIC         = "furnaceRoom/wt32eth01/ds18b20-00/tempF";      // The MQTT topic where the Fahrenheit temperature will be published to.
+const char *DS18_TEMP_C_TOPIC0        = "furnaceRoom/wt32eth01/ds18b20-00/tempC";      // The MQTT topic where the Celsius temperature will be published to.
+const char *DS18_TEMP_F_TOPIC0        = "furnaceRoom/wt32eth01/ds18b20-00/tempF";      // The MQTT topic where the Fahrenheit temperature will be published to.
+const char *DS18_TEMP_C_TOPIC1        = "furnaceRoom/wt32eth01/ds18b20-01/tempC";      // The MQTT topic where the Celsius temperature will be published to.
+const char *DS18_TEMP_F_TOPIC1        = "furnaceRoom/wt32eth01/ds18b20-01/tempF";      // The MQTT topic where the Fahrenheit temperature will be published to.
 const char *HOSTNAME                  = "wt32eth01-ds18b20";                           // The device hostname.
 unsigned long lastPublishTime         = 0;                                             // The last MQTT publish time.
 unsigned long publishInterval         = 20000;                                         // The time between MQTT publishing.
