@@ -146,19 +146,30 @@ float cToF( float value )
 }  // End of the cToF() function.
 
 
+/**
+ * @brief getTemp() will read the Celsius temperature and save it into the passed array.
+ */
+void getTemp( unsigned int index, float valueArray[] )
+{
+	float ds18TempC = ds18b20.getTempCByIndex( index );
+	if( ds18TempC != DEVICE_DISCONNECTED_C )
+		addValue( valueArray, 3, ds18TempC, -42, 212 );
+	else
+		Serial.println( "Error: Failed to read temperature data!" );
+}  // End of the getTemp() function.
+
+
 void pollTelemetry()
 {
 	// Request all Dallas sensors on the bus to read their temperature.
 	ds18b20.requestTemperatures();
 	// Read the temperature from the sensor at index 0.
-	float ds18TempC = ds18b20.getTempCByIndex( 0 );
-	if( ds18TempC != DEVICE_DISCONNECTED_C )
-		addValue( ds18TempCArray0, 3, ds18TempC, -42, 212 );
-	ds18TempC = ds18b20.getTempCByIndex( 1 );
-	if( ds18TempC != DEVICE_DISCONNECTED_C )
-		addValue( ds18TempCArray1, 3, ds18TempC, -42, 212 );
-	else
-		Serial.println( "Error: Failed to read temperature data!" );
+	getTemp( 0, ds18TempCArray0 );
+	getTemp( 1, ds18TempCArray1 );
+	getTemp( 2, ds18TempCArray2 );
+	getTemp( 3, ds18TempCArray3 );
+	getTemp( 4, ds18TempCArray4 );
+	getTemp( 5, ds18TempCArray5 );
 }  // End of the pollTelemetry() function.
 
 
@@ -203,8 +214,35 @@ void printTelemetry()
 	Serial.println( "  Sensor 1:" );
 	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray1 ) );
 	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray1 ) ) );
+	Serial.println( "  Sensor 2:" );
+	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray2 ) );
+	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray2 ) ) );
+	Serial.println( "  Sensor 3:" );
+	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray3 ) );
+	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray3 ) ) );
+	Serial.println( "  Sensor 4:" );
+	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray4 ) );
+	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray4 ) ) );
+	Serial.println( "  Sensor 5:" );
+	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray5 ) );
+	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray5 ) ) );
 	Serial.println();
 }  // End of the printTelemetry() function.
+
+
+/**
+ * @brief publishTemperature() will publish the value from the array to the provided topics.
+ */
+void publishTemperature( float valueArray[], const char *topicC, const char *topicF )
+{
+	char valueBuffer[25] = "";
+	snprintf( valueBuffer, 25, "%.3f", averageArray( valueArray ) );
+	if( mqttClient.publish( topicC, valueBuffer ) )
+		Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, topicC );
+	snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( valueArray ) ) );
+	if( mqttClient.publish( topicF, valueBuffer ) )
+		Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, topicF );
+}  // End of the publishTemperature() function.
 
 
 void loop()
@@ -245,19 +283,26 @@ void loop()
 			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, MQTT_CALLBACK_COUNT_TOPIC );
 
 		// Temperature data
-		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray0 ) );
-		if( mqttClient.publish( DS18_TEMP_C_TOPIC0, valueBuffer ) )
-			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC0 );
-		snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( ds18TempCArray0 ) ) );
-		if( mqttClient.publish( DS18_TEMP_F_TOPIC0, valueBuffer ) )
-			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC0 );
+//		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray0 ) );
+//		if( mqttClient.publish( DS18_TEMP_C_TOPIC0, valueBuffer ) )
+//			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC0 );
+//		snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( ds18TempCArray0 ) ) );
+//		if( mqttClient.publish( DS18_TEMP_F_TOPIC0, valueBuffer ) )
+//			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC0 );
+//
+//		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray1 ) );
+//		if( mqttClient.publish( DS18_TEMP_C_TOPIC1, valueBuffer ) )
+//			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC1 );
+//		snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( ds18TempCArray1 ) ) );
+//		if( mqttClient.publish( DS18_TEMP_F_TOPIC1, valueBuffer ) )
+//			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC1 );
 
-		snprintf( valueBuffer, 25, "%.3f", averageArray( ds18TempCArray1 ) );
-		if( mqttClient.publish( DS18_TEMP_C_TOPIC1, valueBuffer ) )
-			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_C_TOPIC1 );
-		snprintf( valueBuffer, 25, "%.3f", cToF( averageArray( ds18TempCArray1 ) ) );
-		if( mqttClient.publish( DS18_TEMP_F_TOPIC1, valueBuffer ) )
-			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC1 );
+		publishTemperature( ds18TempCArray0, DS18_TEMP_C_TOPIC0, DS18_TEMP_F_TOPIC0 );
+		publishTemperature( ds18TempCArray1, DS18_TEMP_C_TOPIC1, DS18_TEMP_F_TOPIC1 );
+		publishTemperature( ds18TempCArray2, DS18_TEMP_C_TOPIC2, DS18_TEMP_F_TOPIC2 );
+		publishTemperature( ds18TempCArray3, DS18_TEMP_C_TOPIC3, DS18_TEMP_F_TOPIC3 );
+		publishTemperature( ds18TempCArray4, DS18_TEMP_C_TOPIC4, DS18_TEMP_F_TOPIC4 );
+		publishTemperature( ds18TempCArray5, DS18_TEMP_C_TOPIC5, DS18_TEMP_F_TOPIC5 );
 
 		Serial.printf( "Next publish in %u seconds.\n\n", publishInterval / 1000 );
 		lastPublishTime = millis();
