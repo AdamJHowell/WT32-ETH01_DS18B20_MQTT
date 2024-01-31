@@ -165,11 +165,11 @@ void pollTelemetry()
 	ds18b20.requestTemperatures();
 	// Read the temperature from the sensor at index 0.
 	getTemp( 0, ds18TempCArray0 );
-	getTemp( 1, ds18TempCArray1 );
-	getTemp( 2, ds18TempCArray2 );
-	getTemp( 3, ds18TempCArray3 );
-	getTemp( 4, ds18TempCArray4 );
-	getTemp( 5, ds18TempCArray5 );
+// 	getTemp( 1, ds18TempCArray1 );
+// 	getTemp( 2, ds18TempCArray2 );
+// 	getTemp( 3, ds18TempCArray3 );
+// 	getTemp( 4, ds18TempCArray4 );
+// 	getTemp( 5, ds18TempCArray5 );
 }  // End of the pollTelemetry() function.
 
 
@@ -211,21 +211,21 @@ void printTelemetry()
 	Serial.println( "  Sensor 0:" );
 	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray0 ) );
 	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray0 ) ) );
-	Serial.println( "  Sensor 1:" );
-	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray1 ) );
-	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray1 ) ) );
-	Serial.println( "  Sensor 2:" );
-	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray2 ) );
-	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray2 ) ) );
-	Serial.println( "  Sensor 3:" );
-	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray3 ) );
-	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray3 ) ) );
-	Serial.println( "  Sensor 4:" );
-	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray4 ) );
-	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray4 ) ) );
-	Serial.println( "  Sensor 5:" );
-	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray5 ) );
-	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray5 ) ) );
+// 	Serial.println( "  Sensor 1:" );
+// 	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray1 ) );
+// 	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray1 ) ) );
+// 	Serial.println( "  Sensor 2:" );
+// 	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray2 ) );
+// 	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray2 ) ) );
+// 	Serial.println( "  Sensor 3:" );
+// 	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray3 ) );
+// 	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray3 ) ) );
+// 	Serial.println( "  Sensor 4:" );
+// 	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray4 ) );
+// 	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray4 ) ) );
+// 	Serial.println( "  Sensor 5:" );
+// 	Serial.printf( "    Temp: %.2f C\n", averageArray( ds18TempCArray5 ) );
+// 	Serial.printf( "    Temp: %.2f F\n", cToF( averageArray( ds18TempCArray5 ) ) );
 	Serial.println();
 }  // End of the printTelemetry() function.
 
@@ -298,11 +298,11 @@ void loop()
 //			Serial.printf( "Successfully published to '%s' to '%s'\n", valueBuffer, DS18_TEMP_F_TOPIC1 );
 
 		publishTemperature( ds18TempCArray0, DS18_TEMP_C_TOPIC0, DS18_TEMP_F_TOPIC0 );
-		publishTemperature( ds18TempCArray1, DS18_TEMP_C_TOPIC1, DS18_TEMP_F_TOPIC1 );
-		publishTemperature( ds18TempCArray2, DS18_TEMP_C_TOPIC2, DS18_TEMP_F_TOPIC2 );
-		publishTemperature( ds18TempCArray3, DS18_TEMP_C_TOPIC3, DS18_TEMP_F_TOPIC3 );
-		publishTemperature( ds18TempCArray4, DS18_TEMP_C_TOPIC4, DS18_TEMP_F_TOPIC4 );
-		publishTemperature( ds18TempCArray5, DS18_TEMP_C_TOPIC5, DS18_TEMP_F_TOPIC5 );
+// 		publishTemperature( ds18TempCArray1, DS18_TEMP_C_TOPIC1, DS18_TEMP_F_TOPIC1 );
+// 		publishTemperature( ds18TempCArray2, DS18_TEMP_C_TOPIC2, DS18_TEMP_F_TOPIC2 );
+// 		publishTemperature( ds18TempCArray3, DS18_TEMP_C_TOPIC3, DS18_TEMP_F_TOPIC3 );
+// 		publishTemperature( ds18TempCArray4, DS18_TEMP_C_TOPIC4, DS18_TEMP_F_TOPIC4 );
+// 		publishTemperature( ds18TempCArray5, DS18_TEMP_C_TOPIC5, DS18_TEMP_F_TOPIC5 );
 
 		Serial.printf( "Next publish in %u seconds.\n\n", publishInterval / 1000 );
 		lastPublishTime = millis();
